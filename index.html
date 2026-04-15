@@ -60,6 +60,12 @@
     .btn-left  { background: #4a3545; }
     .btn-right { background: #2e3f52; }
     .btn .icon { display: block; font-size: 1.8rem; margin-bottom: 8px; }
+    .last-tracked {
+      margin-top: 40px;
+      font-size: 0.75rem;
+      color: #3e3758;
+      letter-spacing: 0.5px;
+    }
   </style>
 </head>
 <body>
@@ -77,23 +83,43 @@
       <span class="icon">→</span>Right
     </button>
   </div>
+  <div class="last-tracked" id="lastTracked"></div>
   <script>
-    var KEY = 'lastSide';
-    function logFeed(side) { localStorage.setItem(KEY, side); render(); }
+    var KEY  = 'lastSide';
+    var TKEY = 'lastTime';
+    function logFeed(side) {
+      localStorage.setItem(KEY,  side);
+      localStorage.setItem(TKEY, new Date().toISOString());
+      render();
+    }
+    function formatTime(iso) {
+      var d = new Date(iso);
+      var h = d.getHours();
+      var m = d.getMinutes();
+      var ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12;
+      if (h === 0) h = 12;
+      if (m < 10) m = '0' + m;
+      return h + ':' + m + ' ' + ampm;
+    }
     function render() {
-      var last = localStorage.getItem(KEY);
-      var sideEl = document.getElementById('recSide');
-      var subEl  = document.getElementById('recSub');
+      var last     = localStorage.getItem(KEY);
+      var lastTime = localStorage.getItem(TKEY);
+      var sideEl    = document.getElementById('recSide');
+      var subEl     = document.getElementById('recSub');
+      var trackedEl = document.getElementById('lastTracked');
       if (last === null || last === '') {
-        sideEl.textContent = '—';
-        sideEl.className = 'rec-side none';
-        subEl.textContent = 'Tap the side you just finished on';
+        sideEl.textContent    = '—';
+        sideEl.className      = 'rec-side none';
+        subEl.textContent     = 'Tap the side you just finished on';
+        trackedEl.textContent = '';
         return;
       }
       var next = last === 'left' ? 'right' : 'left';
-      sideEl.textContent = next.charAt(0).toUpperCase() + next.slice(1);
-      sideEl.className = 'rec-side ' + next;
-      subEl.textContent = 'Start your next feed here';
+      sideEl.textContent    = next.charAt(0).toUpperCase() + next.slice(1);
+      sideEl.className      = 'rec-side ' + next;
+      subEl.textContent     = 'Start your next feed here';
+      trackedEl.textContent = lastTime ? 'Last tracked at ' + formatTime(lastTime) : '';
     }
     render();
   </script>

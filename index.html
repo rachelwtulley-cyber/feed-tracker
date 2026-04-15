@@ -1,0 +1,106 @@
+<\!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Feed Tracker" />
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="manifest" href="manifest.json">
+  <title>Feed Tracker</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #12111a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .recommendation { margin-bottom: 64px; }
+    .rec-label {
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #6b6485;
+      margin-bottom: 16px;
+    }
+    .rec-side {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .rec-side.left  { color: #c4a0b8; }
+    .rec-side.right { color: #90afc9; }
+    .rec-side.none  { color: #4a4560; font-size: 1.4rem; font-weight: 400; }
+    .rec-sub { font-size: 0.85rem; color: #5a5475; }
+    .question {
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #5a5475;
+      margin-bottom: 20px;
+    }
+    .buttons { display: flex; gap: 16px; width: 100%; max-width: 300px; }
+    .btn {
+      flex: 1;
+      padding: 26px 12px;
+      border: none;
+      border-radius: 18px;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.12s, opacity 0.12s;
+      color: #f0ecf8;
+    }
+    .btn:active { transform: scale(0.94); opacity: 0.85; }
+    .btn-left  { background: #4a3545; }
+    .btn-right { background: #2e3f52; }
+    .btn .icon { display: block; font-size: 1.8rem; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div class="recommendation">
+    <div class="rec-label">Next feed</div>
+    <div class="rec-side" id="recSide">—</div>
+    <div class="rec-sub" id="recSub">Tap the side you just finished on</div>
+  </div>
+  <div class="question">I just fed on…</div>
+  <div class="buttons">
+    <button class="btn btn-left"  onclick="logFeed('left')">
+      <span class="icon">←</span>Left
+    </button>
+    <button class="btn btn-right" onclick="logFeed('right')">
+      <span class="icon">→</span>Right
+    </button>
+  </div>
+  <script>
+    const KEY = 'lastSide';
+    function logFeed(side) { localStorage.setItem(KEY, side); render(); }
+    function render() {
+      const last = localStorage.getItem(KEY);
+      const sideEl = document.getElementById('recSide');
+      const subEl  = document.getElementById('recSub');
+      if (\!last) {
+        sideEl.textContent = '—';
+        sideEl.className = 'rec-side none';
+        subEl.textContent = 'Tap the side you just finished on';
+        return;
+      }
+      const next = last === 'left' ? 'right' : 'left';
+      sideEl.textContent = next.charAt(0).toUpperCase() + next.slice(1);
+      sideEl.className = 'rec-side ' + next;
+      subEl.textContent = 'Start your next feed here';
+    }
+    render();
+  </script>
+</body>
+</html>

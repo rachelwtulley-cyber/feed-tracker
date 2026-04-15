@@ -1,6 +1,6 @@
 {
   "name": "Feed Tracker",
-  "short_name": "Feed",
+  "short_name": "Feed Tracker",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#12111a",

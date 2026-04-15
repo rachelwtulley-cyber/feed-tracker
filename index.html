@@ -1,4 +1,4 @@
-<\!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -75,7 +75,7 @@
   </div>
   <div class="question">I just fed on…</div>
   <div class="buttons">
-    <button class="btn btn-left"  onclick="logFeed('left')">
+    <button class="btn btn-left" onclick="logFeed('left')">
       <span class="icon">←</span>Left
     </button>
     <button class="btn btn-right" onclick="logFeed('right')">
@@ -89,7 +89,7 @@
       const last = localStorage.getItem(KEY);
       const sideEl = document.getElementById('recSide');
       const subEl  = document.getElementById('recSub');
-      if (\!last) {
+      if (!last) {
         sideEl.textContent = '—';
         sideEl.className = 'rec-side none';
         subEl.textContent = 'Tap the side you just finished on';

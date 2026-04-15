@@ -84,7 +84,7 @@
       var last = localStorage.getItem(KEY);
       var sideEl = document.getElementById('recSide');
       var subEl  = document.getElementById('recSub');
-      if (\!last) {
+      if (last === null || last === '') {
         sideEl.textContent = '—';
         sideEl.className = 'rec-side none';
         subEl.textContent = 'Tap the side you just finished on';
